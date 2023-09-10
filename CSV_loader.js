@@ -1,20 +1,31 @@
 async function foo() {
     let dat;
 
-    const res = await fetch('./data.json')
+    const res = await fetch('./data.csv')
 
-    dat = await res.json();
+    dat = await res.text();
 
     return dat;
 }
 
 var data = await foo();
+var data = data.split("\r\n");
+for (var i in data)
+{
+    data[i] = data[i].split(',');
+}
+
+// remove newline data
+while (!data[data.length - 1][0])
+{
+    data.pop();
+}
 
 // get headings
 var headings = [];
-for (var key in data[0])
+for (var i in data[0])
 {
-    headings.push(key)
+    headings.push(data[0][i])
 }
 
 // get values
@@ -42,13 +53,13 @@ for (var i in headings)
 table.appendChild(header_row);
 
 // cells
-for (row in rows)
+for (var i = 1; i < data.length; i++)
 {
     var table_row = document.createElement("tr");
-    for (i in rows[row])
+    for (j in data[i])
     {
         var cell = document.createElement("td");
-        cell.innerHTML = rows[row][i];
+        cell.innerHTML = data[i][j];
         table_row.appendChild(cell);
     }
     table.appendChild(table_row);
