@@ -1,4 +1,4 @@
-async function foo() {
+async function read_csv() {
     let dat;
 
     const res = await fetch('./data.csv')
@@ -8,7 +8,7 @@ async function foo() {
     return dat;
 }
 
-var data = await foo();
+var data = await read_csv();
 var data = data.split("\r\n");
 for (var i in data) {
     data[i] = data[i].split(',');
